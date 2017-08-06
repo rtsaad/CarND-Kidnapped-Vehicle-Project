@@ -1,6 +1,6 @@
 # Kidnapped Vehicle Project
 
-This project consists of a c++ implementation of a [Particle Filter](https://en.wikipedia.org/wiki/Particle_filter) to estimate location (GPS position) of a moving car. This project improves the estimations by sensing landmarks and associating it with their actual positions obtained from a know map. 
+This project consists of a c++ implementation of a [Particle Filter](https://en.wikipedia.org/wiki/Particle_filter) to estimate the location (GPS position) of a moving car. This project improves the estimations by sensing landmarks and associating it with their actual positions obtained from a known map. 
 
 The main goals of this project is to develop a c++ Particle filter that successfully estimates the position of the car from the Udacity Simulator. Figure 1 depicts an example of the filter estimating (blue circle) the object position. The RMSE (Root Mean Square Error) values estimates the accuracy of the Particle Filter Estimation.
 
@@ -39,7 +39,8 @@ This project requires the following packages to work:
 
 ### WebSocketIO
 
-This project uses the open source package called WebScokectIO to facilitate the communication between the UKF and the Udacity Simulator. To install all the websocketio libs, execute the script ``install-ubuntu.sh`` from the project repository directory.
+This project uses the open source package called WebScokectIO to facilitate the communication between the 
+Particle Filter and the Udacity Simulator. To install all the websocketio libs, execute the script ``install-ubuntu.sh`` from the project repository directory.
 
 ## 3.How to use this project
 
@@ -56,7 +57,7 @@ The main program can be built and run by doing the following from the project to
 
 ## 4.Results
 
-Figure 2 depicts the Particle Filter estimations using 20 particles. The RMSE values of 0.23, 0.30, 0.52 and 0.37 show the Particle Filter accuracy to estimate the car's location and yaw angle (bearing). 
+Figure 2 depicts the Particle Filter estimations using 10 particles. The RMSE values of 0.154, 0.122 and 0.005 show the Particle Filter accuracy to estimate the car's location (x and y) and yaw angle (bearing). 
 
 ![alt text][image2]
 
