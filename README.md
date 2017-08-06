@@ -1,134 +1,70 @@
-# Overview
-This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
+# Kidnapped Vehicle Project
 
-#### Submission
-All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
+This project consists of a c++ implementation of a [Particle Filter](https://en.wikipedia.org/wiki/Particle_filter) to estimate location (GPS position) of a moving car. This project improves the estimations by sensing landmarks and associating it with their actual positions obtained from a know map. 
 
-## Project Introduction
-Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
+The main goals of this project is to develop a c++ Particle filter that successfully estimates the position of the car from the Udacity Simulator. Figure 1 depicts an example of the filter estimating (blue circle) the object position. The RMSE (Root Mean Square Error) values estimates the accuracy of the Particle Filter Estimation.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
+![alt text][image4]
 
-## Running the Code
-This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
+[//]: # (Image References)
 
-This repository includes two files that can be used to set up and intall uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
-
-Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
-
-mkdir build
-cd build
-cmake ..
-make
-./particle_filter
-
-Note that the programs that need to be written to accomplish the project are src/particle_filter.cpp, and particle_filter.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
-Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
-INPUT: values provided by the simulator to the c++ program
-
-// sense noisy position data from the simulator
-
-["sense_x"] 
-
-["sense_y"] 
-
-["sense_theta"] 
-
-// get the previous velocity and yaw rate to predict the particle's transitioned state
-
-["previous_velocity"]
-
-["previous_yawrate"]
-
-// receive noisy observation data from the simulator, in a respective list of x/y values
-
-["sense_observations_x"] 
-
-["sense_observations_y"] 
+[image1]: images/success.png "Particle Filter Correctly Estimates Car Location" 
+[image2]: images/10_particles.png "Particle Filter with 10 particles." 
+[image3]: images/50_particles.png "Particle Filter with 50 particles." 
+[image4]: images/animation.gif "Particle Filter estimating car locations." 
 
 
-OUTPUT: values provided by the c++ program to the simulator
 
-// best particle values used for calculating the error evaluation
+## 1.Access 
 
-["best_particle_x"]
+The source code for this project is available at [project code](https://github.com/otomata/CarND-Kidnapped-Vehicle-Project).
 
-["best_particle_y"]
+## 2.Files
 
-["best_particle_theta"] 
+The following files are part of this project: 
+* particle_filter.cpp:   Particle Filter class definition;
+* map.cpp: Map class definition;
+* main.cpp: Main file; 
+* images: 
+** success.png:  Location Estimation using the Udacity Simulator; 
 
-//Optional message data used for debugging particle's sensing and associations
+### Dependency
 
-// for respective (x,y) sensed positions ID label 
+This project requires the following packages to work:
+* Udacity Simulator [https://github.com/udacity/self-driving-car-sim/releases/](https://github.com/udacity/self-driving-car-sim/releases/);
+* cmake 3.5 or above;
+* make 4.1 or above;
+* gcc/g++: 5.4 or above;
+* uWebSocketIO;
 
-["best_particle_associations"]
+### WebSocketIO
 
-// for respective (x,y) sensed positions
+This project uses the open source package called WebScokectIO to facilitate the communication between the UKF and the Udacity Simulator. To install all the websocketio libs, execute the script ``install-ubuntu.sh`` from the project repository directory.
 
-["best_particle_sense_x"] <= list of sensed x positions
+## 3.How to use this project
 
-["best_particle_sense_y"] <= list of sensed y positions
+To run this project, you first need to compile the code. After the code is compiled, please, run the Udacity simulator and the ``particle_filter`` binary created at the build folder.
 
+### Compiling and Running
 
-Your job is to build out the methods in `particle_filter.cpp` until the simulator output says:
+The main program can be built and run by doing the following from the project top directory.
 
-```
-Success! Your particle filter passed!
-```
+1. ./build.sh
+2. cd build
+3. ./particle_filter
+4. Run the Udacity Simulator
 
-# Implementing the Particle Filter
-The directory structure of this repository is as follows:
+## 4.Results
 
-```
-root
-|   build.sh
-|   clean.sh
-|   CMakeLists.txt
-|   README.md
-|   run.sh
-|
-|___data
-|   |   
-|   |   map_data.txt
-|   
-|   
-|___src
-    |   helper_functions.h
-    |   main.cpp
-    |   map.h
-    |   particle_filter.cpp
-    |   particle_filter.h
-```
+Figure 2 depicts the Particle Filter estimations using 20 particles. The RMSE values of 0.23, 0.30, 0.52 and 0.37 show the Particle Filter accuracy to estimate the car's location and yaw angle (bearing). 
 
-The only file you should modify is `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. Read through the code, the comments, and the header file `particle_filter.h` to get a sense for what this code is expected to do.
+![alt text][image2]
 
-If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
+Figure 3 shows the Particle Filter estimations using 50 particles. Increasing the number of particles improves the filter accuracy.
 
-## Inputs to the Particle Filter
-You can find the inputs to the particle filter in the `data` directory. 
-
-#### The Map*
-`map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
-1. x position
-2. y position
-3. landmark id
-
-### All other data the simulator provides, such as observations and controls.
-
-> * Map data provided by 3D Mapping Solutions GmbH.
-
-## Success Criteria
-If your particle filter passes the current grading code in the simulator (you can make sure you have the current version at any time by doing a `git pull`), then you should pass! 
-
-The things the grading code is looking for are:
+![alt text][image3]
 
 
-1. **Accuracy**: your particle filter should localize vehicle position and yaw to within the values specified in the parameters `max_translation_error` and `max_yaw_error` in `src/main.cpp`.
 
-2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
 
 
